@@ -237,8 +237,10 @@ function finalizar(){
   const count = Object.values(carrito).reduce((s,v)=>s+v.qty,0);
   if(count===0){alert("Agregá algo al carrito primero");return;}
   const total = Object.values(carrito).reduce((s,v)=>s+v.precio*v.qty,0);
-  const lineas = Object.entries(carrito).map(([n,v])=>`${v.qty}x ${n}: ${fmt(v.precio*v.qty)}`).join("\n");
-  alert("¡Pedido recibido!\n\n"+lineas+"\n\nTOTAL: "+fmt(total)+"\n\n¡Gracias por tu compra!");
+  const lineas = Object.entries(carrito).map(([n,v])=>`• ${v.qty}x ${n}: ${fmt(v.precio*v.qty)}`).join("\n");
+  const mensaje = `Hola! Quiero hacer un pedido:\n\n${lineas}\n\nTOTAL: ${fmt(total)}`;
+  const url = "https://wa.me/5492257619956?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
   carrito={};
   actualizarCarrito();
   toggleCart();
