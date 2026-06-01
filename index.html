@@ -175,21 +175,24 @@ function renderMenu(){
   c.innerHTML = menu.map(sec => `
     <div class="seccion-header"><h2>${sec.cat}</h2></div>
     ${sec.items.map(it => `
-      <div class="item">
+      <div class="item" data-nombre="${it.n}" data-precio="${it.p}">
         <div class="item-info">
           <div class="nombre">${it.n}</div>
           ${it.d ? `<div class="desc">${it.d}</div>` : ""}
         </div>
         <div class="item-derecha">
           <div class="precio">${fmt(it.p)}</div>
-          <button class="agregar-btn" onclick="agregar(${JSON.stringify(it.n)},${it.p})">+</button>
+          <button class="agregar-btn" onclick="agregar(this)">+</button>
         </div>
       </div>
     `).join("")}
   `).join("");
 }
 
-function agregar(nombre, precio){
+function agregar(btn){
+  const item = btn.closest(".item");
+  const nombre = item.dataset.nombre;
+  const precio = parseInt(item.dataset.precio);
   if(!carrito[nombre]) carrito[nombre]={precio, qty:0};
   carrito[nombre].qty++;
   actualizarCarrito();
